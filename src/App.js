@@ -13,16 +13,16 @@ import ProtectedRoute from "./security/ProtectedRoute";
 
 class App extends Component {
   render() {
-    return (
-        <BrowserRouter>
-          <div>
-            <Switch>
-                <Route exact path="/" component={MainPage}/>
-                <Route exact path="/login" component={Login}/>
-            </Switch>
-          </div>
-        </BrowserRouter>
-    );
+      return (
+          <BrowserRouter>
+              <div>
+                  <Switch>
+                      <PublicRoute path="/login" component={Login}/>
+                      <ProtectedRoute exact path="/" component={MainPage}/>
+                  </Switch>
+              </div>
+          </BrowserRouter>
+      );
   }
 }
 

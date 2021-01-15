@@ -1,0 +1,1 @@
+export const backendHost = 'http://localhost:8080/demo-1.0-SNAPSHOT/rest';
