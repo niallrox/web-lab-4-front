@@ -1,5 +1,9 @@
-import React, {Component, useState} from 'react';
-import {clear, sendForm, serverError} from "../service/requests";
+import React, {useState} from 'react';
+import {clearPoints, sendForm} from "../service/requests";
+import {useDispatch} from "react-redux";
+import {addPoint} from "../store/slices/lastAddedPointSlice";
+import {addPointToHistory} from "../store/slices/historySlice";
+import {updateHistory} from "../store/slices/historySlice";
 
 const FormStyle = {
     color: "white",
@@ -28,9 +32,10 @@ export function Form() {
     const [x, setX] = useState(null);
     const [y, setY] = useState("");
     const [r, setR] = useState(null);
-    const [validationY, setValidationY] = useState("<p>Введите Y</p>")
-    const [validationX, setValidationX] = useState("<p>Введите X</p>")
-    const [validationR, setValidationR] = useState("<p>Введите R</p>")
+    const [validationY, setValidationY] = useState("Введите Y")
+    const [validationX, setValidationX] = useState("Введите X")
+    const [validationR, setValidationR] = useState("Введите R")
+    const dispatch = useDispatch();
 
     function onChangeValueX(event) {
         setX(event.target.value)
@@ -45,55 +50,70 @@ export function Form() {
     function onChangeValueR(event) {
         setR(event.target.value)
         checkR(event.target.value)
+        localStorage.setItem("currentR",event.target.value)
     }
 
     function send() {
         checkY(y)
         checkX(x)
         checkR(r)
-        if ((validationY === "") && (x !== null) && (r !== null)) {
-            document.querySelector(".error").innerHTML = ""
-            document.querySelector(".error").style.display = "none"
-            sendForm(x, y, r, localStorage.getItem("auth"))
+        if ((validationY === "") && (x !== null) && (validationR === "")) {
+            sendForm(x, y, r).then(response => response.json())
+                .then(point => {
+                    dispatch(addPoint(point.x, point.y, point.r, point.result));
+                    dispatch(addPointToHistory(point));
+                });
+
         } else {
-            document.querySelector(".error").style.display = "block"
-            document.querySelector(".error").innerHTML = validationY + validationX + validationR
+
         }
     }
 
+    function clear() {
+        clearPoints().then(() => {
+            dispatch(addPointToHistory());
+        })
+    }
+
     function checkY(y) {
-        if (y != "") {
+        if (y !== "") {
             if (Number.isFinite(y)) {
                 if (y > -3 && y < 3) {
                     setValidationY("")
                 } else {
-                    setValidationY("<p>Y вышел за рамки дозволенного [-3:3]</p>")
+                    setValidationY("Y вышел за рамки дозволенного [-3:3]")
                 }
             } else {
-                setValidationY("<p>Y не число(А что тогда?)</p>")
+                setValidationY("Y не число(А что тогда?)")
             }
         } else {
-            setValidationY("<p>Введите Y</p>")
+            setValidationY("Введите Y")
         }
     }
-    function Val(){
+
+    function Val() {
         alert(validationX)
         alert(validationR)
         alert(validationY)
     }
-    function checkX(x){
-        if(x !== null){
+
+    function checkX(x) {
+        if (x !== null) {
             setValidationX("")
         } else {
-            setValidationX("<p>Введите X</p>")
+            setValidationX("Введите X")
         }
     }
 
-    function checkR(r){
-        if(r !== null){
-            setValidationR("")
+    function checkR(r) {
+        if (r == null) {
+            setValidationR("Введите R")
         } else {
-            setValidationR("<p>Введите R</p>")
+            if (r >= 0) {
+                setValidationR("")
+            } else {
+                setValidationR("Чумба, R не может быть меньше 0")
+            }
         }
     }
 
@@ -131,13 +151,16 @@ export function Form() {
             </div>
             <div style={FormStyle}>
                 <strong>Y VALUE:</strong>
-                <p><span className="error" style={{display: "none"}}></span></p>
+                <p style={{color: "red"}}>{validationX}</p>
+                <p style={{color: "red"}}>{validationY}</p>
+                <p style={{color: "red"}}>{validationR}</p>
                 <p><input type="text" onChange={onChangeValueY} placeholder="Введите Y"/></p>
             </div>
             <div className="send_and_clear">
                 <button type="button" style={SendStyle} onClick={send}><span
                     className="text_send_clear">Отправить</span></button>
-                <button type="button" style={SendStyle} onClick={clear}><span className="text_send_clear">Очистить</span>
+                <button type="button" style={SendStyle} onClick={clear}><span
+                    className="text_send_clear">Очистить</span>
                 </button>
             </div>
         </div>

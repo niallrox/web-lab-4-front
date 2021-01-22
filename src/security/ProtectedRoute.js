@@ -9,7 +9,7 @@ class ProtectedRoute extends Component {
             <Route
                 {...props}
                 render={props => (
-                    localStorage.getItem('auth') !== null ?
+                    localStorage.getItem('authKey') !== null ?
                         <Component {...props} /> :
                         <Redirect to='/login'/>
                 )}

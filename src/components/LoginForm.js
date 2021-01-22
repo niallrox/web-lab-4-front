@@ -4,8 +4,8 @@ import {register, sendLogin} from "../service/requests";
 export function LoginForm(props) {
     const [login, setLogin] = useState(null)
     const [password, setPassword] = useState(null)
-    const [validationLog, setValidationLog] = useState("<p>Введите логин</p>")
-    const [validationPas, setValidationPas] = useState("<p>Введите пароль</p>")
+    const [validationLog, setValidationLog] = useState("")
+    const [validationPas, setValidationPas] = useState("")
 
 
     function validationLogin(event) {
@@ -13,7 +13,7 @@ export function LoginForm(props) {
         if (event.target.value !== "") {
             setValidationLog("")
         } else {
-            setValidationLog("<p>Введите логин</p>")
+            setValidationLog("Введите логин")
         }
     }
 
@@ -22,26 +22,37 @@ export function LoginForm(props) {
         if (event.target.value !== "") {
             setValidationPas("")
         } else {
-            setValidationPas("<p>Введите пароль</p>")
+            setValidationPas("Введите пароль")
         }
     }
 
     function sendLog() {
-        if ((validationLog !== "") || (validationPas !== "")) {
-            document.querySelector(".errorLog").innerHTML = validationLog + validationPas
-            document.querySelector(".errorLog").style.display = "block"
+        if (((validationLog == "") && (validationPas == "")) && ((login != null) && (password != null))) {
+            sendLogin(login, password).then(response => {
+                if (response.ok) {
+                    response.text().then(text => {
+                            localStorage.setItem("authKey", text)
+                        document.location.href = "/~s286535/lab4/";
+                        }
+                    );
+                }
+            });
         } else {
-            document.querySelector(".errorLog").style.display = "none"
-            sendLogin(login, password)
         }
     }
+
     function sendReg() {
-        if ((validationLog !== "") || (validationPas !== "")) {
-            document.querySelector(".errorLog").innerHTML = validationLog + validationPas
-            document.querySelector(".errorLog").style.display = "block"
+        if (((validationLog == "") && (validationPas == "")) && ((login != null) && (password != null))) {
+            register(login, password).then(response => {
+                if (response.ok) {
+                    response.text().then(text => {
+                            localStorage.setItem("authKey", text);
+                            document.location.href = "/~s286535/lab4/";
+                        }
+                    );
+                }
+            });
         } else {
-            document.querySelector(".errorLog").style.display = "none"
-            register(login, password)
         }
     }
 
@@ -49,8 +60,9 @@ export function LoginForm(props) {
         <div>
             <div className="box">
                 <h1>Login</h1>
-                <span style={{display: "none", color: "red"}} className="errorLog"></span>
+                <p style={{color: "red"}}>{validationLog}</p>
                 <input type="text" name="" placeholder="Username" onInput={validationLogin}/>
+                <p style={{color: "red"}}>{validationPas}</p>
                 <input type="password" name="" placeholder="Password" onInput={validationPassword}/>
                 <div className="sign">
                     <input type="button" name="" value="Sign in" onClick={sendLog}/>

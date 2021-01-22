@@ -1,1 +1,1 @@
-export const backendHost = 'http://localhost:8080/demo-1.0-SNAPSHOT/rest';
+export const backendHost = 'http://localhost:10617/demo_war/rest';

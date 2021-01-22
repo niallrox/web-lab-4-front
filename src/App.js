@@ -14,7 +14,7 @@ import ProtectedRoute from "./security/ProtectedRoute";
 class App extends Component {
   render() {
       return (
-          <BrowserRouter>
+          <BrowserRouter basename={'/~s286535/lab4'}>
               <div>
                   <Switch>
                       <PublicRoute path="/login" component={Login}/>

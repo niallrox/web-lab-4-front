@@ -1,4 +1,5 @@
 import React from "react";
+import {logOut} from "../service/requests";
 
 
 const HeaderStyle = {
@@ -9,7 +10,7 @@ const HeaderStyle = {
     color: "white",
 }
 
-function back() {
+export function back() {
     localStorage.clear()
     window.location.reload()
 }
@@ -19,10 +20,9 @@ class Header extends React.Component {
         return (
             <div>
                 <header style={HeaderStyle}>
-                    <a href="https://youtu.be/OzPrpAfvb6k">СРОЧНО К ПРОСМОТРУ</a>
                     Леднев Иван, Рыбальченко Максим P3231 Вариант 2759
                     {localStorage.getItem("auth")}
-                    <input className="exit" type="button" onClick={back} value="Выйти"/>
+                    <input className="exit" type="button" onClick={logOut} value="Выйти"/>
                 </header>
             </div>
         );
