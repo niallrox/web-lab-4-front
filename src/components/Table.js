@@ -7,13 +7,13 @@ export function Table(props) {
     const adjustedHistory = rawHistory
         .map(point => ({ ...point,  x: point.x.toFixed(1),y: point.y.toFixed(1), result: point.result ? 'True' : 'False' }))
         .reverse();
-    
+
     return (
-        <DataTable value={adjustedHistory}>
-            <Column field="x" header="X" bodyStyle={{ wordBreak: 'break-all' }}/>
-            <Column field="y" header="Y" bodyStyle={{ wordBreak: 'break-all' }}/>
-            <Column field="r" header="R" bodyStyle={{ wordBreak: 'break-all' }}/>
-            <Column field="result" header="Result"/>
+        <DataTable style={{background: "black", color: "white", padding: "25px"}} value={adjustedHistory}>
+            <Column style={{width: "150px" }} field="x" header="X" bodyStyle={{ wordBreak: 'break-all', textAlign: "center" }}/>
+            <Column style={{width: "150px"}} field="y" header="Y" bodyStyle={{ wordBreak: 'break-all', textAlign: "center" }}/>
+            <Column style={{width: "150px"}} field="r" header="R" bodyStyle={{ wordBreak: 'break-all', textAlign: "center" }}/>
+            <Column style={{width: "150px"}} field="result" header="Result" bodyStyle={{ wordBreak: 'break-all', textAlign: "center" }}/>
         </DataTable>
     );
 }

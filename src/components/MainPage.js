@@ -25,7 +25,7 @@ function MainPage (props){
             <div className="header">
                 <Header/>
             </div>
-            <div style={{display: "flex"}}>
+            <div className="graphFormTable">
                 <div className="graph">
                     <Graph pointHistory={history}/>
                 </div>

@@ -1,0 +1,27 @@
+.graphFormTable{
+    display: flex;
+}
+@media (max-width: 865px) {
+    .graphFormTable{
+        display: block;
+    }
+    .table{
+        margin-left: 0;
+    }
+}
+@media (min-width: 1000px) {
+    .graphFormTable{
+        display: flex;
+    }
+    .table{
+        width: 500px;
+    }
+}
+@media (min-width: 865px) {
+    .graphFormTable{
+        display: flex;
+    }
+    .table{
+        width: 500px;
+    }
+}

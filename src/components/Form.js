@@ -4,8 +4,20 @@ import {useDispatch} from "react-redux";
 import {addPoint} from "../store/slices/lastAddedPointSlice";
 import {addPointToHistory} from "../store/slices/historySlice";
 import {updateHistory} from "../store/slices/historySlice";
+import manePage from '../manePage.css'
 
 const FormStyle = {
+    color: "white",
+    backgroundColor: "#aec3d9",
+    borderRadius: "20px",
+    padding: "20px",
+    height: "200px",
+    boxShadow: "inset 0 0 6px black",
+    marginLeft: "25px",
+    marginBottom: "25px",
+    textAlign: "center"
+}
+const FormStyleY = {
     color: "white",
     backgroundColor: "#aec3d9",
     borderRadius: "20px",
@@ -149,7 +161,7 @@ export function Form() {
                     </div>
                 </div>
             </div>
-            <div style={FormStyle}>
+            <div style={FormStyleY}>
                 <strong>Y VALUE:</strong>
                 <p style={{color: "red"}}>{validationX}</p>
                 <p style={{color: "red"}}>{validationY}</p>
