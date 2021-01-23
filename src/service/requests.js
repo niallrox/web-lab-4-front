@@ -63,7 +63,7 @@ export function register(name, password) {
             },
             body: JSON.stringify({"name": name, "pass": password})
         }
-    );
+    ); 
 }
 
 export function logOut() {
